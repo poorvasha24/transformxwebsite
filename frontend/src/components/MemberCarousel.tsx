@@ -51,8 +51,8 @@ export const MemberCarousel: React.FC<MemberCarouselProps> = ({ title, subtitle,
             playHover();
             playUiBeep(900 + (index % members.length) * 50);
           }}
-          className={`group relative h-80 flex-shrink-0 cursor-pointer overflow-hidden clip-chamfer border-2 border-[#1e293b] hover:border-[#00A3FF] hover:-translate-y-2 transition-all bg-[#0a0f1d] ${
-            gridMode ? 'w-full' : 'w-64 snap-center'
+          className={`group relative h-72 sm:h-80 flex-shrink-0 cursor-pointer overflow-hidden clip-chamfer border-2 border-[#1e293b] hover:border-[#00A3FF] hover:-translate-y-2 transition-all bg-[#0a0f1d] ${
+            gridMode ? 'w-full' : 'w-52 xs:w-60 sm:w-64 snap-center'
           }`}
         >
           {/* Background Pattern */}
@@ -147,18 +147,18 @@ export const MemberCarousel: React.FC<MemberCarouselProps> = ({ title, subtitle,
   }
 
   return (
-    <div className="relative w-full overflow-hidden my-12 py-8">
+    <div className="relative w-full overflow-hidden my-6 sm:my-12 py-4 sm:py-8">
       {(title || subtitle) && (
-        <div className="flex flex-col items-center text-center mb-8 relative z-10">
+        <div className="flex flex-col items-center text-center mb-6 sm:mb-8 relative z-10 px-4">
           {subtitle && (
-            <div className="text-[10px] font-mono tracking-[0.4em] text-[#cc0000] mb-3 flex items-center justify-center gap-3 uppercase">
+            <div className="text-[10px] font-mono tracking-[0.4em] text-[#cc0000] mb-2 sm:mb-3 flex items-center justify-center gap-3 uppercase">
               <span className="w-8 h-[1px] bg-[#cc0000]/40" />
               <span>{subtitle}</span>
               <span className="w-8 h-[1px] bg-[#cc0000]/40" />
             </div>
           )}
           {title && (
-            <h2 className="font-orbitron font-black text-2xl sm:text-4xl tracking-wide text-white uppercase" dangerouslySetInnerHTML={{__html: title}}></h2>
+            <h2 className="font-orbitron font-black text-xl xs:text-2xl sm:text-4xl tracking-wide text-white uppercase" dangerouslySetInnerHTML={{__html: title}}></h2>
           )}
         </div>
       )}
@@ -178,7 +178,7 @@ export const MemberCarousel: React.FC<MemberCarouselProps> = ({ title, subtitle,
         >
           {/* Continuous Moving Carousel */}
           <div 
-            className="flex gap-6 min-w-max px-4 py-8 pointer-events-auto animate-marquee hover:pause-animation"
+            className="flex gap-4 sm:gap-6 min-w-max px-4 py-4 sm:py-8 pointer-events-auto animate-marquee hover:pause-animation"
           >
             {content}
           </div>

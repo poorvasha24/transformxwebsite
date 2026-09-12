@@ -35,6 +35,16 @@ function TruckModel() {
 }
 
 export const RobotGuardian: React.FC<{ scrollProgress: MotionValue<number> }> = ({ scrollProgress }) => {
+  const [windowWidth, setWindowWidth] = React.useState(() => typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  React.useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const cameraZoom = windowWidth < 480 ? 6.5 : windowWidth < 640 ? 7.5 : windowWidth < 1024 ? 14 : 20;
+
   // --- PATH TRACING MATH ---
   const topMovement = useTransform(scrollProgress, (p: number) => {
     const yPercent = 2.5 + p * 90;
@@ -88,12 +98,12 @@ export const RobotGuardian: React.FC<{ scrollProgress: MotionValue<number> }> = 
   return (
     <motion.div
       style={{ top: topMovement, left: leftMovement, rotate: rotation, x: "-50%", y: "-50%" }}
-      className="absolute w-96 h-96 flex items-center justify-center z-[60] pointer-events-none"
+      className="absolute w-20 h-20 sm:w-28 sm:h-28 md:w-40 md:h-40 lg:w-72 lg:h-72 flex items-center justify-center z-[60] pointer-events-none"
     >
       <div className="relative w-full h-full flex flex-col items-center justify-center pointer-events-none">
         <Canvas
           orthographic
-          camera={{ position: [0, 20, 0], zoom: 25, near: 0.1, far: 1000, rotation: [-Math.PI / 2, 0, 0] }}
+          camera={{ position: [0, 20, 0], zoom: cameraZoom, near: 0.1, far: 1000, rotation: [-Math.PI / 2, 0, 0] }}
           className="drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
         >
           <ambientLight intensity={0.5} />
@@ -107,19 +117,24 @@ export const RobotGuardian: React.FC<{ scrollProgress: MotionValue<number> }> = 
         {/* Dynamic Status Display */}
         <motion.div
           style={{ rotate: useTransform(rotation, (r) => -r) }}
-          className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 bg-black/60 border border-[#00A3FF]/40 px-2 py-0.5 rounded-sm backdrop-blur-md whitespace-nowrap pointer-events-none"
+          className="absolute -bottom-2 sm:-bottom-3 lg:-bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5 sm:gap-1 bg-black/80 border border-[#00A3FF]/40 px-1 py-0.5 sm:px-1.5 sm:py-0.5 lg:px-2 rounded-sm backdrop-blur-md whitespace-nowrap pointer-events-none"
         >
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 sm:gap-1.5">
             <motion.div
               style={{ backgroundColor: useTransform(isFinalStatus, [0, 1], ['#00A3FF', '#cc0000']) }}
-              className="w-1.5 h-1.5 rounded-full animate-ping"
+              className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full animate-ping shrink-0"
             />
             <motion.span
-              className="font-mono text-[8px] tracking-widest"
+              className="font-mono text-[6.5px] sm:text-[7.5px] lg:text-[8px] tracking-tight sm:tracking-wider lg:tracking-widest"
               style={{ color: useTransform(isFinalStatus, [0, 1], ['#00A3FF', '#ff4500']) }}
             >
               {/* @ts-ignore - framer motion types weirdness with strings */}
-              {useTransform(isFinalStatus, (v) => v > 0.5 ? "FINAL MISSION UNLOCKED" : "OPTIMUS PRIME ACTIVE")}
+              {useTransform(isFinalStatus, (v) => {
+                if (windowWidth < 640) {
+                  return v > 0.5 ? "FINAL MISSION" : "OPTIMUS PRIME";
+                }
+                return v > 0.5 ? "FINAL MISSION UNLOCKED" : "OPTIMUS PRIME ACTIVE";
+              })}
             </motion.span>
           </div>
         </motion.div>

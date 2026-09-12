@@ -5,6 +5,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { EventDetails } from './components/EventDetails';
 import { EventHighlights } from './components/EventHighlights';
+import { EventSponsors } from './components/EventSponsors';
 import { ThemesSection } from './components/ThemesSection';
 import { RoadmapTimeline } from './components/RoadmapTimeline';
 import { RegisterSection } from './components/RegisterSection';
@@ -62,11 +63,11 @@ const prospectiveMembers = generateMembers(5, 'Prospective Member').map((member,
 
 const eventCoordinators = generateMembers(6, 'Event Coordinator').map((member, index) => {
   if (index === 0) { return { name: 'Poorvasha K', role: 'Event Coordinator', image: '' }; }
-  if (index === 1) { return { name: 'Darshana S', role: 'Event Coordinator', image: '' }; }
+  if (index === 1) { return { name: 'Harsharani R B', role: 'Event Coordinator', image: '/images/harshu.jpeg' }; }
   if (index === 2) { return { name: 'Dhayaa Shri S', role: 'Event Coordinator', image: '' }; }
-  if (index === 3) { return { name: 'Harsharani R B', role: 'Event Coordinator', image: '' }; }
-  if (index === 4) { return { name: 'Praveen Kumar R', role: 'Event Coordinator', image: '' }; }
-  if (index === 5) { return { name: 'Member 6', role: 'Event Coordinator', image: '' }; }
+  if (index === 3) { return { name: 'Darshana S', role: 'Event Coordinator', image: '/images/dharshana.jpeg' }; }
+  if (index === 4) { return { name: 'Praveen Kumar R', role: 'Event Coordinator', image: '/images/praveen.jpeg' }; }
+  if (index === 5) { return { name: 'Megesh L', role: 'Event Coordinator', image: '/images/megesg.jpeg' }; }
   return member;
 });
 
@@ -151,6 +152,9 @@ export default function App() {
 
             {/* Event Highlights Section */}
             <EventHighlights />
+
+            {/* Event Sponsors Section */}
+            <EventSponsors />
 
             {/* SIH 7 Themes Innovation Matrix */}
             <ThemesSection />
